@@ -14,6 +14,8 @@ services:
         depends_on:
             - mongodb
         privileged: true
+        networks:
+            - nginx
         sysctls:
             - net.ipv6.conf.all.disable_ipv6=0
         links:
@@ -21,13 +23,17 @@ services:
         volumes:
             - /etc/localtime:/etc/localtime:ro
         ports:
-            # Under this port the Pritunl web interface will be exposed (for reverse proxies)
-            - 9700:9700
             # The following are the two default ports for the tcp+udp servers (you may edit these as needed!)
             - 1194:1194
             - 1194:1194/udp
+            - 8080:8080
+            - 8080:8080/udp
         environment:
             - TZ=UTC
             - MONGODB_URI=mongodb://mongodb:27017/pritunl
             # Also enable reverse proxie capabilities
             - REVERSE_PROXY=true
+networks:
+  nginx:
+    external:
+      name: nginx_default

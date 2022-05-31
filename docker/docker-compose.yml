@@ -38,7 +38,7 @@ services:
             # Also enable reverse proxie capabilities
             - REVERSE_PROXY=true
 volumes:
-  vpn_data:
+  vpn_db:
     driver: local
             
 networks:

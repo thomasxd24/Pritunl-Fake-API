@@ -7,7 +7,7 @@ services:
         networks:
             - pritunl-vpn
         volumes:
-            - ./mongodb:/data/db
+            - 'vpn_db:/data/db'
 
     pritunl:
         # Use the following to build the image from source.
@@ -37,8 +37,13 @@ services:
             - MONGODB_URI=mongodb://mongo-vpn:27017/pritunl
             # Also enable reverse proxie capabilities
             - REVERSE_PROXY=true
+volumes:
+  vpn_data:
+    driver: local
+            
 networks:
   pritunl-vpn:
+    driver: bridge
   nginx:
     external:
       name: nginx_default
